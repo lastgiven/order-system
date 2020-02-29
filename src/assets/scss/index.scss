@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+
+body{
+	margin: 0;
+	font-family: 'Montserrat';
+}
+
+.container{
+	width: 90%;
+	margin: 2.5% auto;
+}
+
+.card{
+	position: relative;
+	&.inactive{
+		&:after{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba($color: #000000, $alpha: 0.7);
+			content: "Not Available";
+			color: white;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 25px;
+			font-weight: bold;
+		}
+	}
+}
