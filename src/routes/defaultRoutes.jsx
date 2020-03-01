@@ -5,10 +5,10 @@ import GeneralOrders from "../views/general/Orders";
 import GeneralLanding from "../views/general/Landing";
 
 const indexRoutes = [
-	{ path: "/admin/order", component: AdminOrders },
+	{ path: "/admin/orders", component: AdminOrders },
 	{ path: "/admin/products", component: AdminProducts },
 	{ path: "/admin", component: AdminLanding },
-	{ path: "/order", component: GeneralOrders },
+	{ path: "/orders", component: GeneralOrders },
 	{ path: "/", component: GeneralLanding },
 ];
 
