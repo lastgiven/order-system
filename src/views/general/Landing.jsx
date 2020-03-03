@@ -26,8 +26,11 @@ const CREATE_ORDER = gql`
 `;
 
 const Landing = (props) => {
-	const { loading, error, data } = useQuery(GET_PRODUCTS);
+	const { loading, error, data } = useQuery(GET_PRODUCTS, {
+		pollInterval: 500,
+	});
 	const [cart, setCart] = useState([]);
+	const { fetching, loggedIn, user } = props.data;
 	const [viewCart, setViewCart] = useState(false);
 	const [deliveryNotes, setDeliveryNotes] = useState('');
 	const [
@@ -62,13 +65,22 @@ const Landing = (props) => {
 		}).then((result) => {
 			if (result.value) {
 				// Order Item
-				Swal.fire(
-					'Order Successfully Created!',
-					'',
-					'success'
-				).then(() => {
-					props.history.push('/orders')
-				});
+				createNewOrder({
+					variables: {
+						"data": {
+							"deliveryNote": deliveryNotes,
+							"products": {
+								"connect": cart.map(i => { return { id: i.id } })
+							},
+							"status": "PENDING",
+							"orderer": {
+								"connect": {
+									"id": user.id
+								}
+							}
+						}
+					}
+				})
 			}
 		})
 	}
@@ -86,6 +98,7 @@ const Landing = (props) => {
 		)
 	}
 	if (error) {
+		console.log('error', error)
 		return (
 			<div className="loading">
 				OOOPS an error has occurred
@@ -96,8 +109,10 @@ const Landing = (props) => {
 	return (
 		<div className="container">
 			<Login />
-			Show all products
 			<div className="row">
+				<div className="col s12">
+					<h3 className="left">Show all products</h3>
+				</div>
 				{data.products.map(product => {
 					return (
 						<div className="col s12 m3 l3" key={product.id}>
@@ -142,20 +157,20 @@ const Landing = (props) => {
 												</div>
 											</div>
 										)
-									})}								
+									})}
 								</div>
 							</div>
 							<div className="col s6 notes">
 								<div class="input-field">
-									<textarea 
-										id="textarea1" 
-										class="materialize-textarea" 
+									<textarea
+										id="textarea1"
+										class="materialize-textarea"
 										placeholder="Add Delivery Notes"
 										value={deliveryNotes}
-										onChange={(e) => {setDeliveryNotes(e.target.value)}}
+										onChange={(e) => { setDeliveryNotes(e.target.value) }}
 									></textarea>
 								</div>
-							</div>						
+							</div>
 						</div>
 						<div className="center-align">
 							<button className="btn waves-effect waves-light green" onClick={orderProduct}>
