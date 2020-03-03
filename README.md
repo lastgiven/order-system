@@ -12,6 +12,7 @@ You will also see any lint errors in the console.
 
 The route for the admin Portal is hidden. 
 
-You can access it VIA ###`http://localhost:3000/admin`
+You can access it VIA 
+###`http://localhost:3000/admin`
 
 ### `Admin PW 20245687952135`
